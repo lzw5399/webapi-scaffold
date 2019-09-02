@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Doublelives.Domain\Doublelives.Domain.csproj" />
+    <PackageReference Include="Tencent.QCloud.Cos.Sdk.NetCore" Version="5.4.2" />
   </ItemGroup>
 
 </Project>
