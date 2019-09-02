@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# configuration file
+src/api/Doublelives.Api/appsettings.Development.json
+*.Development.json
