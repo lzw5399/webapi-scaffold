@@ -15,5 +15,8 @@ namespace Doublelives.Core.Configs
         public string Bucket { get; set; }
 
         public string Region { get; set; }
+
+        // secretKey 有效时长,单位为 秒
+        public int DurationSecond { get; set; }
     }
 }
