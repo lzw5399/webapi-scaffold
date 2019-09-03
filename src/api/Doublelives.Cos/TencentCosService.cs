@@ -9,18 +9,21 @@ using Doublelives.Shared.ConfigModels;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
+using Microsoft.Extensions.Logging;
 
 namespace Doublelives.Cos
 {
     public class TencentCosService : ITencentCosService
     {
-        private readonly CosXmlServer _cosXmlServer;
+        private readonly CosXml _cosXml;
         private readonly TencentCosOptions _cosConfig;
+        private readonly ILogger<TencentCosService> _logger;
 
-        public TencentCosService(CosXmlServer cosXmlServer, IOptions<TencentCosOptions> options)
+        public TencentCosService(CosXml cosXml, IOptions<TencentCosOptions> options, ILogger<TencentCosService> logger)
         {
-            _cosXmlServer = cosXmlServer;
+            _cosXml = cosXml;
             _cosConfig = options.Value;
+            _logger = logger;
         }
 
         public IEnumerable<string> GetDoublelivesBucketObjects()
@@ -32,20 +35,35 @@ namespace Doublelives.Cos
 
         private IEnumerable<string> GetObjectsByBucket(string bucket)
         {
-            var request = new GetBucketRequest(bucket);
-            //设置签名有效时长
-            // request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
-            GetBucketResult response = _cosXmlServer.GetBucket(request);
+            try
+            {
+                var request = new GetBucketRequest(bucket);
+                //设置签名有效时长
+                // request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
+                GetBucketResult response = _cosXml.GetBucket(request);
 
-            var result =  response.listBucket.contentsList
-                    .Select(it =>
-                    {
-                        var encodeValue = HttpUtility.HtmlEncode(it.key);
+                var result = response.listBucket.contentsList
+                        .Select(it =>
+                        {
+                            var encodeValue = HttpUtility.HtmlEncode(it.key);
 
-                        return $"{_cosConfig.BaseUrl}/{encodeValue}";
-                    });
+                            return $"{_cosConfig.BaseUrl}/{encodeValue}";
+                        });
 
-            return result;
+                return result;
+            }
+            catch (COSXML.CosException.CosClientException clientEx)
+            {
+                Console.WriteLine("CosClientException: " + clientEx.Message);
+                _logger.LogError("CosClientException: " + clientEx.Message);
+            }
+            catch (COSXML.CosException.CosServerException serverEx)
+            {
+                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+                _logger.LogError("CosClientException: " + serverEx.GetInfo());
+            }
+
+            return new List<string> { "error occured, see sentry!" };
         }
     }
 }

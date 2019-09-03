@@ -38,7 +38,7 @@ namespace Doublelives.Core
                 Convert.ToInt64(configuration["TencentCos:DurationSecond"]));
             var cosXmlServer = new CosXmlServer(cosXmlConfig, cosCredentialProvider);
 
-            services.AddSingleton<CosXmlServer>(it => cosXmlServer);
+            services.AddSingleton<CosXml>(it => cosXmlServer);
         }
     }
 }
