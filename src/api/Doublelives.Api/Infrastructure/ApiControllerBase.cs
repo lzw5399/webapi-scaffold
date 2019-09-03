@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Doublelives.Api.Infrastructure
 {
-    [Route("api/[controller]")]
+    // [Route("api/[controller]")]
     public class ApiControllerBase : ControllerBase
     {
         //protected WorkContext WorkContext { get; set; }

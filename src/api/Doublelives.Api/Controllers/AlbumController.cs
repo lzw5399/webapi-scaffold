@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Doublelives.Api.Controllers
 {
+    [Route("api/album")]
     public class AlbumController : ApiControllerBase
     {
         private readonly IPictureService _pictureService;
@@ -25,7 +26,7 @@ namespace Doublelives.Api.Controllers
             return Ok(pictures);
         }
 
-        [HttpGet]
+        [HttpGet("divideByZero")]
         public IActionResult DivideByZero()
         {
             int x = 1, y = 0;
