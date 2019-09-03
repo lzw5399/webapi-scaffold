@@ -15,7 +15,9 @@ variables:
   imageName: '$(dockerid)/$(applicationName):$(tagName)'
 
 steps:
-  - script: ./transform_settings.ps1
+  - script: |
+    sudo chmod 777 transform_settings.ps1
+    ./transform_settings.ps1
     displayName: 'Transform settings'
     env:
       AppId: $(AppId)
