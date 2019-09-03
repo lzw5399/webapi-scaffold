@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Doublelives.Core\Doublelives.Core.csproj" />
+    <ProjectReference Include="..\Doublelives.Shared\Doublelives.Shared.csproj" />
   </ItemGroup>
 
 </Project>

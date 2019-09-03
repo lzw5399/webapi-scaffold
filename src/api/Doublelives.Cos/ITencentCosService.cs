@@ -6,6 +6,8 @@ namespace Doublelives.Cos
 {
     public interface ITencentCosService
     {
-        void GetAllBuckets();
+        string GetCurrentBucket();
+
+        string GetDoublelivesBucketObjects();
     }
 }

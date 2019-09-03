@@ -17,7 +17,7 @@ namespace Doublelives.Service.Pictures
 
         public IEnumerable<Picture> GetAll()
         {
-            _cosService.GetAllBuckets();
+            var result = _cosService.GetDoublelivesBucketObjects();
 
             return null;
         }

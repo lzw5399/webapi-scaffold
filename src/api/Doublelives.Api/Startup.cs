@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Doublelives.Core;
+using Doublelives.Shared.ConfigModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,8 @@ namespace Doublelives.Api
                 c.SwaggerDoc("v1", new Info { Title = "doublelives album", Version = "v1.0" });
             });
 
+            services.Configure<TencentCosOptions>(Configuration.GetSection("TencentCos"));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -46,6 +49,7 @@ namespace Doublelives.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "doublelives album V1");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseMvc();

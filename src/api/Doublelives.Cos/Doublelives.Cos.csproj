@@ -9,4 +9,8 @@
     <PackageReference Include="Tencent.QCloud.Cos.Sdk.NetCore" Version="5.4.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Doublelives.Shared\Doublelives.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
