@@ -24,5 +24,14 @@ namespace Doublelives.Api.Controllers
 
             return Ok(pictures);
         }
+
+        [HttpGet]
+        public IActionResult DivideByZero()
+        {
+            int x = 1, y = 0;
+            var z = x / y;
+
+            return Ok(z);
+        }
     }
 }

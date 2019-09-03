@@ -19,6 +19,7 @@ namespace Doublelives.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .UseKestrel(options => options.AddServerHeader = false)
+            .UseStartup<Startup>();
     }
 }

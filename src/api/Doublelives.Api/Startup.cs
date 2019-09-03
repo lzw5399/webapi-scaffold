@@ -38,12 +38,16 @@ namespace Doublelives.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            loggerFactory
+                .AddSentry(options =>
+                {
+                    options.Dsn = Configuration["SentryClientKey"];
+                    options.Environment = env.EnvironmentName;
+                    options.MinimumEventLevel = LogLevel.Error;
+                    options.Debug = env.IsDevelopment();
+                });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
