@@ -15,10 +15,7 @@ variables:
   imageName: '$(dockerid)/$(applicationName):$(tagName)'
 
 steps:
-  - powershell: |
-    echo start_transform
-    ./transform_settings.ps1
-    failOnStderr: true
+  - script: ./transform_settings.ps1
     displayName: 'Transform settings'
     env:
       AppId: $(AppId)
