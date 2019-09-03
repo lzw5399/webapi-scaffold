@@ -16,7 +16,9 @@ variables:
 
 steps:
   - powershell: |
+    echo start_transform
     ./transform_settings.ps1
+    failOnStderr: true
     displayName: 'Transform settings'
     env:
       AppId: $(AppId)
