@@ -18,5 +18,7 @@ namespace Doublelives.Shared.ConfigModels
 
         // secretKey 有效时长,单位为 秒
         public int DurationSecond { get; set; }
+
+        public string BaseUrl { get; set; }
     }
 }

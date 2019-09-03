@@ -6,8 +6,6 @@ namespace Doublelives.Cos
 {
     public interface ITencentCosService
     {
-        string GetCurrentBucket();
-
-        string GetDoublelivesBucketObjects();
+        IEnumerable<string> GetDoublelivesBucketObjects();
     }
 }

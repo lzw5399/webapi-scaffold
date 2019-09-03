@@ -15,11 +15,9 @@ namespace Doublelives.Service.Pictures
             _cosService = cosService;
         }
 
-        public IEnumerable<Picture> GetAll()
+        public IEnumerable<string> GetAll()
         {
-            var result = _cosService.GetDoublelivesBucketObjects();
-
-            return null;
+            return _cosService.GetDoublelivesBucketObjects();
         }
     }
 }

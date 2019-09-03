@@ -1,12 +1,14 @@
 ﻿using COSXML;
 using System;
 using Microsoft.Extensions.Options;
-using COSXML.Auth;
 using COSXML.Model.Service;
 using COSXML.Utils;
 using COSXML.CosException;
 using COSXML.Model.Bucket;
 using Doublelives.Shared.ConfigModels;
+using System.Linq;
+using System.Collections.Generic;
+using System.Web;
 
 namespace Doublelives.Cos
 {
@@ -21,45 +23,29 @@ namespace Doublelives.Cos
             _cosConfig = options.Value;
         }
 
-        public string GetCurrentBucket()
-        {
-            var bucket = string.Empty;
-            try
-            {
-                var request = new GetServiceRequest();
-                //设置签名有效时长
-                request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
-                GetServiceResult result = _cosXmlServer.GetService(request);
-
-                bucket = result.GetResultInfo();
-            }
-            catch (CosClientException ex)
-            {
-                Console.WriteLine("CosClientException: " + ex.Message);
-            }
-            catch (CosServerException ex)
-            {
-                Console.WriteLine("CosServerException: " + ex.GetInfo());
-            }
-
-            return bucket;
-        }
-
-        public string GetDoublelivesBucketObjects()
+        public IEnumerable<string> GetDoublelivesBucketObjects()
         {
             var result = GetObjectsByBucket(_cosConfig.Bucket);
 
             return result;
         }
 
-        private string GetObjectsByBucket(string bucket)
+        private IEnumerable<string> GetObjectsByBucket(string bucket)
         {
             var request = new GetBucketRequest(bucket);
             //设置签名有效时长
             request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
-            GetBucketResult result = _cosXmlServer.GetBucket(request);
+            GetBucketResult response = _cosXmlServer.GetBucket(request);
 
-            return result.GetResultInfo();
+            var result =  response.listBucket.contentsList
+                    .Select(it =>
+                    {
+                        var encodeValue = HttpUtility.HtmlEncode(it.key);
+
+                        return $"{_cosConfig.BaseUrl}/{encodeValue}";
+                    });
+
+            return result;
         }
     }
 }
