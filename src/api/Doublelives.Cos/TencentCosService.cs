@@ -34,7 +34,7 @@ namespace Doublelives.Cos
         {
             var request = new GetBucketRequest(bucket);
             //设置签名有效时长
-            request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
+            // request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
             GetBucketResult response = _cosXmlServer.GetBucket(request);
 
             var result =  response.listBucket.contentsList
