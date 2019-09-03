@@ -15,7 +15,7 @@ variables:
   imageName: '$(dockerid)/$(applicationName):$(tagName)'
 
 steps:
-  - script: docker build -f Dockerfile -t $(imageName) .
+  - script: docker build -f ../../../Dockerfile.API -t $(imageName) .
     displayName: 'Docker build'
     workingDirectory: src/api/Doublelives.Api
 
