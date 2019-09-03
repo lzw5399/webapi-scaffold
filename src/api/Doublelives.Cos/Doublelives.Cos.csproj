@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Doublelives.Domain\Doublelives.Domain.csproj" />
     <ProjectReference Include="..\Doublelives.Shared\Doublelives.Shared.csproj" />
   </ItemGroup>
 

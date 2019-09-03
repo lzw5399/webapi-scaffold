@@ -10,6 +10,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 using Microsoft.Extensions.Logging;
+using Doublelives.Domain.Pictures;
+using Doublelives.Domain;
+using COSXML.Auth;
 
 namespace Doublelives.Cos
 {
@@ -17,23 +20,21 @@ namespace Doublelives.Cos
     {
         private readonly CosXml _cosXml;
         private readonly TencentCosOptions _cosConfig;
-        private readonly ILogger<TencentCosService> _logger;
 
-        public TencentCosService(CosXml cosXml, IOptions<TencentCosOptions> options, ILogger<TencentCosService> logger)
+        public TencentCosService(IOptions<TencentCosOptions> options)
         {
-            _cosXml = cosXml;
             _cosConfig = options.Value;
-            _logger = logger;
+            _cosXml = InitCosXml();
         }
 
-        public IEnumerable<string> GetDoublelivesBucketObjects()
+        public IEnumerable<Picture> GetDoublelivesBucketPictures()
         {
-            var result = GetObjectsByBucket(_cosConfig.Bucket);
+            var result = GetPicturesByBucket(_cosConfig.Bucket);
 
             return result;
         }
 
-        private IEnumerable<string> GetObjectsByBucket(string bucket)
+        private IEnumerable<Picture> GetPicturesByBucket(string bucket)
         {
             var request = new GetBucketRequest(bucket);
             //设置签名有效时长
@@ -43,12 +44,35 @@ namespace Doublelives.Cos
             var result = response.listBucket.contentsList
                     .Select(it =>
                     {
-                        var encodeValue = HttpUtility.HtmlEncode(it.key);
+                           var picture = new Picture
+                        {
+                            Url = $"{_cosConfig.BaseUrl}/{HttpUtility.HtmlEncode(it.key)}",
+                            Size = it.size
+                        };
+                        DateTime.TryParse(it.lastModified, out var time);
+                        picture.LastModified = time;
 
-                        return $"{_cosConfig.BaseUrl}/{encodeValue}";
-                    });
+                        return picture;
+                    })
+                    .OrderByDescending(it => it.LastModified);
 
             return result;
+        }
+
+        private CosXml InitCosXml()
+        {
+            var cosXmlConfig = new CosXmlConfig.Builder()
+                .IsHttps(false)
+                .SetAppid(_cosConfig.AppId)
+                .SetRegion(_cosConfig.Region)
+                .SetDebugLog(true)
+                .Build();
+            var cosCredentialProvider = new DefaultQCloudCredentialProvider(
+                _cosConfig.SecretId,
+                _cosConfig.SecretKey,
+                _cosConfig.DurationSecond);
+
+            return new CosXmlServer(cosXmlConfig, cosCredentialProvider);
         }
     }
 }

@@ -49,8 +49,6 @@ namespace Doublelives.Api
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     // 避免循环依赖
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    // 配置json默认是首字母小写
-                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                     // 配置序列化时时间格式
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 })

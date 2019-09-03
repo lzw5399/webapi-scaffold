@@ -7,6 +7,6 @@ namespace Doublelives.Service.Pictures
 {
     public interface IPictureService
     {
-        IEnumerable<string> GetAll();
+        IEnumerable<Picture> GetAll();
     }
 }
