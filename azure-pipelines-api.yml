@@ -15,6 +15,19 @@ variables:
   imageName: '$(dockerid)/$(applicationName):$(tagName)'
 
 steps:
+  - powershell: |
+    ./transform_settings.ps1
+    failOnStderr: true
+    displayName: 'Transform configuration items'
+    env:
+      AppId: $(AppId)
+      SecretId: $(SecretId)
+      SecretKey: $(SecretKey)
+      Bucket: $(Bucket)
+      Region: $(Region)
+      DurationSecond: $(DurationSecond)
+      BaseUrl: $(BaseUrl)
+
   - script: docker build -f ../../Dockerfile.API -t $(imageName) .
     displayName: 'Docker build'
     workingDirectory: src/api
