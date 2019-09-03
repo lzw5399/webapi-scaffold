@@ -35,35 +35,20 @@ namespace Doublelives.Cos
 
         private IEnumerable<string> GetObjectsByBucket(string bucket)
         {
-            try
-            {
-                var request = new GetBucketRequest(bucket);
-                //设置签名有效时长
-                // request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
-                GetBucketResult response = _cosXml.GetBucket(request);
+            var request = new GetBucketRequest(bucket);
+            //设置签名有效时长
+            request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), _cosConfig.DurationSecond);
+            GetBucketResult response = _cosXml.GetBucket(request);
 
-                var result = response.listBucket.contentsList
-                        .Select(it =>
-                        {
-                            var encodeValue = HttpUtility.HtmlEncode(it.key);
+            var result = response.listBucket.contentsList
+                    .Select(it =>
+                    {
+                        var encodeValue = HttpUtility.HtmlEncode(it.key);
 
-                            return $"{_cosConfig.BaseUrl}/{encodeValue}";
-                        });
+                        return $"{_cosConfig.BaseUrl}/{encodeValue}";
+                    });
 
-                return result;
-            }
-            catch (COSXML.CosException.CosClientException clientEx)
-            {
-                Console.WriteLine("CosClientException: " + clientEx.Message);
-                _logger.LogError("CosClientException: " + clientEx.Message);
-            }
-            catch (COSXML.CosException.CosServerException serverEx)
-            {
-                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
-                _logger.LogError("CosClientException: " + serverEx.GetInfo());
-            }
-
-            return new List<string> { "error occured, see sentry!" };
+            return result;
         }
     }
 }
