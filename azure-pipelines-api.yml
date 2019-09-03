@@ -16,8 +16,9 @@ variables:
 
 steps:
   - script: |
-    sudo chmod 777 transform_settings.ps1
-    ./transform_settings.ps1
+      sudo chmod 777 transform_settings.ps1
+      ./transform_settings.ps1
+      echo transform_successfully
     displayName: 'Transform settings'
     env:
       AppId: $(AppId)
