@@ -18,7 +18,7 @@ steps:
   - powershell: |
     ./transform_settings.ps1
     failOnStderr: true
-    displayName: 'Transform configuration items'
+    displayName: 'Transform settings'
     env:
       AppId: $(AppId)
       SecretId: $(SecretId)
