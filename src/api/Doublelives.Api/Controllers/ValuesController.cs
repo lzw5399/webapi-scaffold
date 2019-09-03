@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Doublelives.Service.Pictures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Doublelives.Api.Controllers
@@ -10,10 +11,18 @@ namespace Doublelives.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
+        private readonly IPictureService _pictureService;
+
+        public ValuesController(IPictureService pictureService)
+        {
+            _pictureService = pictureService;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            // _pictureService.GetAll();
+
             return new string[] { "value1", "value2" };
         }
 

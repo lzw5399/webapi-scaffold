@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Doublelives.Core.Configs;
+using Doublelives.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Doublelives.Api
 {
@@ -24,7 +25,12 @@ namespace Doublelives.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<TencentCosOptions>(Configuration.GetSection("TencentCos"));
+            DIConfig.Configure(services, Configuration);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "doublelives album", Version = "v1.0" });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -35,6 +41,12 @@ namespace Doublelives.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "doublelives album V1");
+            });
 
             app.UseMvc();
         }

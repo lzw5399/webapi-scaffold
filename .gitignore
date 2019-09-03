@@ -340,5 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 # configuration file
-src/api/Doublelives.Api/appsettings.Development.json
 *.Development.json

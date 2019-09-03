@@ -1,37 +1,43 @@
 ﻿using COSXML;
-using Doublelives.Core.Configs;
 using System;
 using Microsoft.Extensions.Options;
 using COSXML.Auth;
+using COSXML.Model.Service;
+using COSXML.Utils;
 
 namespace Doublelives.Cos
 {
     public class TencentCosService : ITencentCosService
     {
-        private readonly CosXmlConfig _cosXmlConfig;
         private readonly CosXmlServer _cosXmlServer;
-        private readonly QCloudCredentialProvider _cosCredentialProvider;
 
-        public TencentCosService(IOptions<TencentCosOptions> cosOptions)
+        public TencentCosService(CosXmlServer cosXmlServer)
         {
-            var cosConfig = cosOptions.Value;
-
-            _cosXmlConfig = new CosXmlConfig.Builder()
-                .IsHttps(false)
-                .SetAppid(cosConfig.AppId)
-                .SetRegion(cosConfig.Region)
-                .SetDebugLog(true)
-                .Build();
-            _cosCredentialProvider = new DefaultQCloudCredentialProvider(
-                cosConfig.SecretId,
-                cosConfig.SecretKey,
-                cosConfig.DurationSecond);
-            _cosXmlServer = new CosXmlServer(_cosXmlConfig, _cosCredentialProvider);
+            _cosXmlServer = cosXmlServer;
         }
 
-        public void GetAllByBucket(string bucket)
+        public void GetAllBuckets()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = new GetServiceRequest();
+                //设置签名有效时长
+                request.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
+                //执行请求
+                GetServiceResult result = _cosXmlServer.GetService(request);
+                //请求成功
+                Console.WriteLine(result.GetResultInfo());
+            }
+            catch (COSXML.CosException.CosClientException clientEx)
+            {
+                //请求失败
+                Console.WriteLine("CosClientException: " + clientEx.Message);
+            }
+            catch (COSXML.CosException.CosServerException serverEx)
+            {
+                //请求失败
+                Console.WriteLine("CosServerException: " + serverEx.GetInfo());
+            }
         }
     }
 }
