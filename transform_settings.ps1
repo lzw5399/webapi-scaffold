@@ -8,4 +8,8 @@ $settings.TencentCos.DurationSecond = $env:DurationSecond;
 $settings.TencentCos.BaseUrl = $env:BaseUrl;
 $settings.SentryClientKey = $env:SentryClientKey;
 $settings.ConnectionStrings.Album = $env:Album;
+$settings.Jwt.Key = $env:JwtKey;
+$settings.Jwt.Issuer = $env:Issuer;
+$settings.Jwt.Audience = $env:Audience;
+$settings.Jwt.ExpireMinutes = $env:ExpireMinutes;
 set-content "src/api/Doublelives.Api/appsettings.json" ($settings | convertto-json);

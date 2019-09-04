@@ -34,6 +34,10 @@ steps:
       BaseUrl: $(BaseUrl)
       SentryClientKey: $(SentryClientKey)
       Album: $(Album)
+      JwtKey: $(JwtKey)
+      Issuer: $(Issuer)
+      Audience: $(Audience)
+      ExpireMinutes: $(ExpireMinutes)
 
   - script: docker build -f ../../Dockerfile.API -t $(imageName) .
     displayName: 'Docker build'
