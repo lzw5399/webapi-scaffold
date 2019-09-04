@@ -18,7 +18,8 @@ namespace Doublelives.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new PictureEmtityMapping());
+            modelBuilder.ApplyConfiguration(new PictureEntityMapping());
+            modelBuilder.ApplyConfiguration(new UserEntityMapping());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Doublelives.Data.Mapping
 {
-    public class PictureEmtityMapping : IEntityTypeConfiguration<Picture>
+    public class PictureEntityMapping : IEntityTypeConfiguration<Picture>
     {
         public void Configure(EntityTypeBuilder<Picture> builder)
         {
