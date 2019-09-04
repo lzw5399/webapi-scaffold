@@ -6,6 +6,8 @@ using Doublelives.Service.Pictures;
 using Doublelives.Service.Users;
 using Doublelives.Service.WorkContextAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,6 +22,7 @@ namespace Doublelives.Core
         {
             ConfigureServices(services, configuration);
             ConfigurePersistence(services, configuration);
+            ConfigureDistributedCache(services, configuration);
             ConfigureWorkContext(services);
         }
 
@@ -44,6 +47,12 @@ namespace Doublelives.Core
             services
                 .AddTransient<IAlbumDbContext, AlbumDbContext>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
+        }
+
+        private static void ConfigureDistributedCache(IServiceCollection services, IConfiguration configuration)
+        {
+            var csredis = new CSRedis.CSRedisClient(configuration.GetConnectionString("TxRedis"));
+            services.AddSingleton<IDistributedCache>(new CSRedisCache(csredis));
         }
 
         private static void ConfigureWorkContext(IServiceCollection services)

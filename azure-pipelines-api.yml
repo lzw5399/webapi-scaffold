@@ -38,6 +38,7 @@ steps:
       Issuer: $(Issuer)
       Audience: $(Audience)
       ExpireMinutes: $(ExpireMinutes)
+      Redis: $(Redis)
 
   - script: docker build -f ../../Dockerfile.API -t $(imageName) .
     displayName: 'Docker build'

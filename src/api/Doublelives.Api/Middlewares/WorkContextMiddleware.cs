@@ -53,7 +53,7 @@ namespace Doublelives.Api.Middlewares
                     Language = user.LanguageCode
                 };
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }

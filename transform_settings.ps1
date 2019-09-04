@@ -8,6 +8,7 @@ $settings.TencentCos.DurationSecond = $env:DurationSecond;
 $settings.TencentCos.BaseUrl = $env:BaseUrl;
 $settings.SentryClientKey = $env:SentryClientKey;
 $settings.ConnectionStrings.Album = $env:Album;
+$settings.ConnectionStrings.TxRedis = $env:Redis;
 $settings.Jwt.Key = $env:JwtKey;
 $settings.Jwt.Issuer = $env:Issuer;
 $settings.Jwt.Audience = $env:Audience;

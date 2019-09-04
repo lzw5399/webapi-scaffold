@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Caching.CSRedis" Version="3.0.51" />
     <PackageReference Include="IdentityModel" Version="4.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
@@ -14,6 +15,7 @@
     <ProjectReference Include="..\Doublelives.Cos\Doublelives.Cos.csproj" />
     <ProjectReference Include="..\Doublelives.Data\Doublelives.Data.csproj" />
     <ProjectReference Include="..\Doublelives.Domain\Doublelives.Domain.csproj" />
+    <ProjectReference Include="..\Doublelives.Infrastructure\Doublelives.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

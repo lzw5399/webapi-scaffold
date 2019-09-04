@@ -5,10 +5,14 @@ using System.Security.Claims;
 using System.Text;
 using Doublelives.Data;
 using Doublelives.Domain.Users;
+using Doublelives.Infrastructure.Exceptions;
+using Doublelives.Infrastructure.Extensions;
 using Doublelives.Shared.ConfigModels;
 using IdentityModel;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace Doublelives.Service.Users
 {
@@ -16,11 +20,16 @@ namespace Doublelives.Service.Users
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtOptions _jwtConfig;
+        private readonly IDistributedCache _distributedCache;
 
-        public UserService(IUnitOfWork unitOfWork, IOptions<JwtOptions> jwtOptions)
+        public UserService(
+            IUnitOfWork unitOfWork,
+            IOptions<JwtOptions> jwtOptions,
+            IDistributedCache distributedCache)
         {
             _unitOfWork = unitOfWork;
             _jwtConfig = jwtOptions.Value;
+            _distributedCache = distributedCache;
         }
 
         public string GenerateToken(string id)
@@ -49,9 +58,25 @@ namespace Doublelives.Service.Users
 
         public User GetById(string id)
         {
+            var cachedUser = _distributedCache.GetAsObject<User>(id);
+
+            if (cachedUser != null)
+            {
+                return cachedUser;
+            }
+
             var guid = Guid.Parse(id);
 
-            return _unitOfWork.UserRepository.GetAsQueryable().FirstOrDefault(it => it.Id == guid);
+            var dbUser = _unitOfWork.UserRepository.GetAsQueryable().FirstOrDefault(it => it.Id == guid);
+
+            if (dbUser == null)
+            {
+                throw new NotFoundException("user.NotFound", "user doesn't not found!");
+            }
+
+            _distributedCache.SetAsObject(dbUser.Id.ToString(), dbUser);
+
+            return dbUser;
         }
     }
 }
