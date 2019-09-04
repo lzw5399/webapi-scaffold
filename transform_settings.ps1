@@ -7,4 +7,5 @@ $settings.TencentCos.Region = $env:Region;
 $settings.TencentCos.DurationSecond = $env:DurationSecond;
 $settings.TencentCos.BaseUrl = $env:BaseUrl;
 $settings.SentryClientKey = $env:SentryClientKey;
+$settings.ConnectionStrings.Album = $env:Album;
 set-content "src/api/Doublelives.Api/appsettings.json" ($settings | convertto-json);

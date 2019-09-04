@@ -33,6 +33,7 @@ steps:
       DurationSecond: $(DurationSecond)
       BaseUrl: $(BaseUrl)
       SentryClientKey: $(SentryClientKey)
+      Album: $(Album)
 
   - script: docker build -f ../../Dockerfile.API -t $(imageName) .
     displayName: 'Docker build'
