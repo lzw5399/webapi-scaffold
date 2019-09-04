@@ -22,6 +22,8 @@ namespace Doublelives.Domain.Users
 
         public Role Role { get; set; }
 
+        public string LanguageCode { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

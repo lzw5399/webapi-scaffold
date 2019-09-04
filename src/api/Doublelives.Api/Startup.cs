@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Doublelives.Api.AutoMapper;
+using Doublelives.Api.Middlewares;
 using Doublelives.Core;
 using Doublelives.Core.Filters;
 using Doublelives.Shared.ConfigModels;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -39,11 +45,28 @@ namespace Doublelives.Api
             });
 
             services.Configure<TencentCosOptions>(Configuration.GetSection("TencentCos"));
+            services.Configure<JwtOptions>(Configuration.GetSection("Jwt"));
 
             services.AddAutoMapper(c =>
             {
                 c.AddProfile(new ResponseProfile());
             }, typeof(Startup));
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
+                    options.TokenValidationParameters.ValidateIssuer = true;
+                    options.TokenValidationParameters.ValidateAudience = true;
+                    options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+                    options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(key);
+                    options.TokenValidationParameters.ValidAudience = Configuration["Jwt:Audience"];
+                    options.TokenValidationParameters.ValidIssuer = Configuration["Jwt:Issuer"];
+                    options.TokenValidationParameters.NameClaimType = JwtClaimTypes.Name;
+                    options.TokenValidationParameters.RoleClaimType = JwtClaimTypes.Role;
+                });
 
             services
                 .AddMvc(options =>
@@ -64,6 +87,10 @@ namespace Doublelives.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseAuthentication();
+
+            app.UseMiddleware<WorkContextMiddleware>();
+
             loggerFactory
                 .AddSentry(options =>
                 {

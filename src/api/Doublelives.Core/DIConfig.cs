@@ -3,6 +3,8 @@ using COSXML.Auth;
 using Doublelives.Cos;
 using Doublelives.Data;
 using Doublelives.Service.Pictures;
+using Doublelives.Service.Users;
+using Doublelives.Service.WorkContextAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +20,14 @@ namespace Doublelives.Core
         {
             ConfigureServices(services, configuration);
             ConfigurePersistence(services, configuration);
+            ConfigureWorkContext(services);
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<ITencentCosService, TencentCosService>();
             services.AddTransient<IPictureService, PictureService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         private static void ConfigurePersistence(IServiceCollection services, IConfiguration configuration)
@@ -40,6 +44,11 @@ namespace Doublelives.Core
             services
                 .AddTransient<IAlbumDbContext, AlbumDbContext>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
+        }
+
+        private static void ConfigureWorkContext(IServiceCollection services)
+        {
+            services.AddSingleton<IWorkContextAccessor, WorkContextAccessor>();
         }
     }
 }

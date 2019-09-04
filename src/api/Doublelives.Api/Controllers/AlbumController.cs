@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Doublelives.Api.Controllers
 {
     [Route("api/album")]
-    public class AlbumController : ApiControllerBase
+    public class AlbumController : ControllerBase
     {
         private readonly IPictureService _pictureService;
         private readonly IMapper _mapper;
