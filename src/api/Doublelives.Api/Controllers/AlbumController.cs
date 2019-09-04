@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Doublelives.Api.Infrastructure;
+using Doublelives.Api.Models.Album;
+using Doublelives.Domain.Pictures;
 using Doublelives.Service.Pictures;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +15,12 @@ namespace Doublelives.Api.Controllers
     public class AlbumController : ApiControllerBase
     {
         private readonly IPictureService _pictureService;
+        private readonly IMapper _mapper;
 
-        public AlbumController(IPictureService pictureService)
+        public AlbumController(IPictureService pictureService, IMapper mapper)
         {
             _pictureService = pictureService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +28,9 @@ namespace Doublelives.Api.Controllers
         {
             var pictures = _pictureService.GetAll();
 
-            return Ok(pictures);
+            var response = _mapper.Map<IEnumerable<PicturesResponse>>(pictures);
+
+            return Ok(response);
         }
 
         [HttpGet("divideByZero")]

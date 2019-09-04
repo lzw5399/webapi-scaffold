@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Doublelives.Api.AutoMapper;
 using Doublelives.Core;
 using Doublelives.Core.Filters;
 using Doublelives.Shared.ConfigModels;
@@ -37,6 +39,11 @@ namespace Doublelives.Api
             });
 
             services.Configure<TencentCosOptions>(Configuration.GetSection("TencentCos"));
+
+            services.AddAutoMapper(c =>
+            {
+                c.AddProfile(new ResponseProfile());
+            }, typeof(Startup));
 
             services
                 .AddMvc(options =>
