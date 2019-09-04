@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Doublelives.Core\Doublelives.Core.csproj" />
+    <ProjectReference Include="..\Doublelives.Migrations\Doublelives.Migrations.csproj" />
     <ProjectReference Include="..\Doublelives.Shared\Doublelives.Shared.csproj" />
   </ItemGroup>
 
