@@ -1,5 +1,7 @@
 ﻿using System;
+using AutoMapper;
 using Doublelives.Api.Infrastructure;
+using Doublelives.Api.Models.Users;
 using Doublelives.Service.Users;
 using Doublelives.Service.WorkContextAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -11,11 +13,16 @@ namespace Doublelives.Api.Controllers
     public class UserController : AuthControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IWorkContextAccessor workContextAccessor)
+        public UserController(
+            IUserService userService,
+            IWorkContextAccessor workContextAccessor,
+            IMapper mapper)
             : base(workContextAccessor)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         /// <summary>获取token</summary>
@@ -32,7 +39,11 @@ namespace Doublelives.Api.Controllers
         [HttpGet("useToken")]
         public IActionResult UseToken()
         {
-            return Ok(User);
+            var user = _userService.GetById(WorkContext.CurrentUser.Id.ToString());
+
+            var response = _mapper.Map<UserResponse>(user);
+            
+            return Ok(response);
         }
     }
 }

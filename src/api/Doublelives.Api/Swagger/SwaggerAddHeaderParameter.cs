@@ -44,7 +44,7 @@ namespace Doublelives.Api.Swagger
                 operation.Parameters.Add(new NonBodyParameter()
                 {
                     Description = "Example: \"{your token}\"",
-                    Name = ApiHeaders.AUTHORIZATION,
+                    Name = ApiHeaders.TOKEN,
                     In = "header",
                     Type = "apiKey",
                     Required = false

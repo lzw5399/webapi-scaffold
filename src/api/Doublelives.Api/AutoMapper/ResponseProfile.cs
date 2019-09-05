@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Doublelives.Api.Models.Album;
+using Doublelives.Api.Models.Users;
 using Doublelives.Domain.Pictures;
+using Doublelives.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace Doublelives.Api.AutoMapper
         public ResponseProfile()
         {
             CreateMap<Picture, PicturesResponse>();
+            CreateMap<User, UserResponse>();
         }
     }
 }

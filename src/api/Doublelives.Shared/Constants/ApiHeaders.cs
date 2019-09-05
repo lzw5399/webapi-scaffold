@@ -6,6 +6,6 @@ namespace Doublelives.Shared.Constants
 {
     public struct ApiHeaders
     {
-        public const string AUTHORIZATION = "Authorization";
+        public const string TOKEN = "token";
     }
 }

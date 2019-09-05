@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Doublelives.Api.AutoMapper;
 using Doublelives.Api.Middlewares;
@@ -8,6 +9,7 @@ using Doublelives.Api.Swagger;
 using Doublelives.Core;
 using Doublelives.Core.Filters;
 using Doublelives.Shared.ConfigModels;
+using Doublelives.Shared.Constants;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -70,6 +72,16 @@ namespace Doublelives.Api
                     options.TokenValidationParameters.ValidIssuer = Configuration["Jwt:Issuer"];
                     options.TokenValidationParameters.NameClaimType = JwtClaimTypes.Name;
                     options.TokenValidationParameters.RoleClaimType = JwtClaimTypes.Role;
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = it =>
+                         {
+                             it.Token = it.HttpContext.Request.Headers[ApiHeaders.TOKEN];
+
+                             return Task.CompletedTask;
+                         }
+                    };
                 });
 
             services
