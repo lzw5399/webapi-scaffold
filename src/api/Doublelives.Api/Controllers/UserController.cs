@@ -16,8 +16,8 @@ namespace Doublelives.Api.Controllers
         private readonly IMapper _mapper;
 
         public UserController(
-            IUserService userService,
             IWorkContextAccessor workContextAccessor,
+            IUserService userService,
             IMapper mapper)
             : base(workContextAccessor)
         {
@@ -25,12 +25,13 @@ namespace Doublelives.Api.Controllers
             _mapper = mapper;
         }
 
-        /// <summary>获取token</summary>
+        /// <summary>获取token,id传空，则使用默认的一个id</summary>
         [AllowAnonymous]
         [HttpGet("getToken")]
-        public IActionResult GetToken()
+        public IActionResult GetToken(string id)
         {
-            var token = _userService.GenerateToken("2069b03a-9167-455c-9db8-5846334e5f20");
+            id = id ?? "2069b03a-9167-455c-9db8-5846334e5f20";
+            var token = _userService.GenerateToken(id);
 
             return Ok(token);
         }
@@ -39,10 +40,8 @@ namespace Doublelives.Api.Controllers
         [HttpGet("useToken")]
         public IActionResult UseToken()
         {
-            var user = _userService.GetById(WorkContext.CurrentUser.Id.ToString());
+            var response = _mapper.Map<UserResponse>(WorkContext.CurrentUser);
 
-            var response = _mapper.Map<UserResponse>(user);
-            
             return Ok(response);
         }
     }
