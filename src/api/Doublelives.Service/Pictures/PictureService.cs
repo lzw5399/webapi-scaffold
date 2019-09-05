@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Doublelives.Cos;
 using Doublelives.Domain.Pictures;
+using Microsoft.AspNetCore.Http;
 
 namespace Doublelives.Service.Pictures
 {
@@ -18,6 +19,11 @@ namespace Doublelives.Service.Pictures
         public IEnumerable<Picture> GetAll()
         {
             return _cosService.GetDoublelivesBucketPictures();
+        }
+
+        public void Upload(string userId, List<IFormFile> files)
+        {
+            throw new NotImplementedException();
         }
     }
 }

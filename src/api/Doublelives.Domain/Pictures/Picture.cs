@@ -12,6 +12,8 @@ namespace Doublelives.Domain.Pictures
             Uploader = "unknown";
         }
 
+        public string ETag { get; set; }
+
         public DateTime LastModified { get; set; }
 
         public string Uploader { get; set; }

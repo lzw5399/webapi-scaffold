@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Doublelives.Domain.Pictures;
 using Doublelives.Domain;
 using COSXML.Auth;
+using COSXML.Model.Object;
+using System.Drawing;
 
 namespace Doublelives.Cos
 {
@@ -34,6 +36,11 @@ namespace Doublelives.Cos
             return result;
         }
 
+        public void Upload(List<Image> images)
+        {
+            // PutObjectRequest request = new PutObjectRequest();
+        }
+
         private IEnumerable<Picture> GetPicturesByBucket(string bucket)
         {
             var request = new GetBucketRequest(bucket);
@@ -44,10 +51,11 @@ namespace Doublelives.Cos
             var result = response.listBucket.contentsList
                     .Select(it =>
                     {
-                           var picture = new Picture
+                        var picture = new Picture
                         {
                             Url = $"{_cosConfig.BaseUrl}/{HttpUtility.HtmlEncode(it.key)}",
-                            Size = it.size
+                            Size = it.size,
+                            ETag = it.eTag
                         };
                         DateTime.TryParse(it.lastModified, out var time);
                         picture.LastModified = time;

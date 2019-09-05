@@ -7,6 +7,8 @@ namespace Doublelives.Api.Models.Album
 {
     public class PicturesResponse
     {
+        public string ETag { get; set; }
+
         public string Uploader { get; set; }
 
         public long Size { get; set; }
