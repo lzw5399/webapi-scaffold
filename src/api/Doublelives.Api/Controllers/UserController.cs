@@ -25,7 +25,8 @@ namespace Doublelives.Api.Controllers
             _mapper = mapper;
         }
 
-        /// <summary>获取token,id传空，则使用默认的一个id</summary>
+        /// <summary>获取token</summary>
+        /// <param name="id">若id为空，则使用默认的一个id</param>
         [AllowAnonymous]
         [HttpGet("getToken")]
         public IActionResult GetToken(string id)
