@@ -30,7 +30,7 @@ namespace Doublelives.Data
 
         public virtual void Update(TEntity entity)
         {
-            // Do nothing because data context will take care of this.
+            Entities.Update(entity);
         }
 
         public virtual void Delete(TEntity entity)

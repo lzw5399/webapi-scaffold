@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Doublelives.Api.AutoMapper;
 using Doublelives.Api.Middlewares;
+using Doublelives.Api.Swagger;
 using Doublelives.Core;
 using Doublelives.Core.Filters;
 using Doublelives.Shared.ConfigModels;
@@ -14,12 +12,12 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
@@ -39,9 +37,15 @@ namespace Doublelives.Api
         {
             DIConfig.Configure(services, Configuration);
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+
             services.AddSwaggerGen(c =>
             {
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "swagger.xml");
+                c.IncludeXmlComments(filePath);
                 c.SwaggerDoc("v1", new Info { Title = "doublelives album", Version = "v1.0" });
+                c.OperationFilter<SwaggerAddHeaderParameter>();
             });
 
             services.Configure<TencentCosOptions>(Configuration.GetSection("TencentCos"));

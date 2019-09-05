@@ -23,6 +23,7 @@ namespace Doublelives.Api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>获取所有的图片链接</summary>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -33,6 +34,7 @@ namespace Doublelives.Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>用于引发除以0的异常，测试专用</summary>
         [HttpGet("divideByZero")]
         public IActionResult DivideByZero()
         {

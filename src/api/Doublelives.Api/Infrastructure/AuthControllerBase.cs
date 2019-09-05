@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Doublelives.Api.Infrastructure
 {
+    [Authorize]
     public class AuthControllerBase : ControllerBase
     {
         protected WorkContext WorkContext { get; }

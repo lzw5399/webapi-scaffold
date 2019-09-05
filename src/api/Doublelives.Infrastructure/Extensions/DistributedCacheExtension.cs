@@ -18,7 +18,7 @@ namespace Doublelives.Infrastructure.Extensions
         public static void SetAsObject(this IDistributedCache cache, string key, object obj)
         {
             var str = JsonConvert.SerializeObject(obj);
-            cache.SetString(key, str);
+            cache.SetString(key, str, new DistributedCacheEntryOptions { SlidingExpiration = TimeSpan.FromDays(7) });
         }
     }
 }

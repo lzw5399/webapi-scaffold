@@ -78,5 +78,30 @@ namespace Doublelives.Service.Users
 
             return dbUser;
         }
+
+        public void Add(User user)
+        {
+            _distributedCache.SetAsObject(user.Id.ToString(), user);
+
+            _unitOfWork.UserRepository.Insert(user);
+            _unitOfWork.Commit();
+        }
+
+        public void Update(User user)
+        {
+            _distributedCache.SetAsObject(user.Id.ToString(), user);
+
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Commit();
+        }
+
+        public void Delete(string id)
+        {
+            _distributedCache.Remove(id);
+
+            var user = _unitOfWork.UserRepository.GetById(id);
+            user.IsDeleted = true;
+            _unitOfWork.Commit();
+        }
     }
 }

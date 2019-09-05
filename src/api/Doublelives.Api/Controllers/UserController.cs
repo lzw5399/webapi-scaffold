@@ -1,4 +1,5 @@
-﻿using Doublelives.Api.Infrastructure;
+﻿using System;
+using Doublelives.Api.Infrastructure;
 using Doublelives.Service.Users;
 using Doublelives.Service.WorkContextAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,7 @@ namespace Doublelives.Api.Controllers
             _userService = userService;
         }
 
+        /// <summary>获取token</summary>
         [AllowAnonymous]
         [HttpGet("getToken")]
         public IActionResult GetToken()
@@ -26,13 +28,11 @@ namespace Doublelives.Api.Controllers
             return Ok(token);
         }
 
+        /// <summary>使用获得的token</summary>
         [HttpGet("useToken")]
         public IActionResult UseToken()
         {
-            var x = WorkContext;
-            var isAuthenticated = User.Identity.IsAuthenticated;
-
-            return Ok(isAuthenticated);
+            return Ok(User);
         }
     }
 }
