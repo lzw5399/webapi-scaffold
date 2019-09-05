@@ -12,6 +12,11 @@ namespace Doublelives.Infrastructure.Extensions
         {
             var result = cache.GetString(key);
 
+            if (result == null)
+            {
+                return default;
+            }
+
             return JsonConvert.DeserializeObject<T>(result);
         }
 
