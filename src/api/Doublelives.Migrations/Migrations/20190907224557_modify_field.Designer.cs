@@ -3,14 +3,16 @@ using System;
 using Doublelives.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Doublelives.Migrations.Migrations
 {
     [DbContext(typeof(AlbumDbContext))]
-    partial class AlbumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190907224557_modify_field")]
+    partial class modify_field
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
