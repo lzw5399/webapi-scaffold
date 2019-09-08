@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,17 @@ namespace Doublelives.Api
                 c.AddProfile(new ResponseProfile());
             }, typeof(Startup));
 
+            services.AddCors(options => options.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+                .AllowCredentials()
+                .WithExposedHeaders(ApiHeaders.TOKEN)
+                .SetPreflightMaxAge(TimeSpan.FromDays(1));
+            }));
+
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -103,6 +115,8 @@ namespace Doublelives.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors("AllowAll");
+
             app.UseAuthentication();
 
             app.UseMiddleware<WorkContextMiddleware>();
