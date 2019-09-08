@@ -1,4 +1,4 @@
-$settings = get-content "src/api/Doublelives.Api/appsettings.json" | convertfrom-json;
+$settings = get-content "Doublelives.Api/appsettings.json" | convertfrom-json;
 $settings.TencentCos.AppId = $env:AppId;
 $settings.TencentCos.SecretId = $env:SecretId;
 $settings.TencentCos.SecretKey = $env:SecretKey;
@@ -13,4 +13,4 @@ $settings.Jwt.Key = $env:JwtKey;
 $settings.Jwt.Issuer = $env:Issuer;
 $settings.Jwt.Audience = $env:Audience;
 $settings.Jwt.ExpireMinutes = $env:ExpireMinutes;
-set-content "src/api/Doublelives.Api/appsettings.json" ($settings | convertto-json);
+set-content "Doublelives.Api/appsettings.json" ($settings | convertto-json);
