@@ -11,7 +11,7 @@ namespace Doublelives.Api.Swagger
     public class SwaggerAddHeaderParameter : IOperationFilter
     {
         private readonly (string, string)[] _allowAnonymousActions = new[]
-{
+        {
             ("album", "divideByZero"),
             ("user", "getToken")
         };
