@@ -10,8 +10,6 @@ trigger:
       - .dockerignore
       - .gitignore
       - README.md
-      - Dockerfile.Frontend
-      - azure-pipelines-frontend.yml
 
 variables:
   applicationName: album

@@ -1,9 +1,8 @@
-﻿
+﻿using System;
 using Doublelives.Shared.Constants;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
