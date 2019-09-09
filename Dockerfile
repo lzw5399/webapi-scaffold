@@ -15,7 +15,7 @@ COPY ["Doublelives.Data/Doublelives.Data.csproj", "Doublelives.Data/"]
 COPY ["Doublelives.Migrations/Doublelives.Migrations.csproj", "Doublelives.Migrations/"]
 RUN dotnet restore "Doublelives.Api/Doublelives.Api.csproj"
 COPY . .
-WORKDIR "/src/Doublelives.Api"
+WORKDIR /src/Doublelives.Api
 RUN dotnet build "Doublelives.Api.csproj" -c Release -o /app
 
 FROM build AS publish
