@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,9 +14,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Doublelives.Cos\Doublelives.Cos.csproj" />
-    <ProjectReference Include="..\Doublelives.Data\Doublelives.Data.csproj" />
     <ProjectReference Include="..\Doublelives.Domain\Doublelives.Domain.csproj" />
     <ProjectReference Include="..\Doublelives.Infrastructure\Doublelives.Infrastructure.csproj" />
+    <ProjectReference Include="..\Doublelives.Persistence\Doublelives.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,8 @@
 ﻿using Doublelives.Domain.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Doublelives.Data.Mapping;
+using Doublelives.Persistence.Mapping;
 
-namespace Doublelives.Data
+namespace Doublelives.Persistence
 {
     public class AlbumDbContext : DbContext, IAlbumDbContext
     {

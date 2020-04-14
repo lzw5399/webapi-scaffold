@@ -1,7 +1,7 @@
 ﻿using Doublelives.Domain.Pictures;
 using Doublelives.Domain.Users;
 
-namespace Doublelives.Data
+namespace Doublelives.Persistence
 {
     public interface IUnitOfWork
     {

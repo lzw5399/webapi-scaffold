@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Doublelives.Data
+namespace Doublelives.Persistence
 {
     public partial interface IRepository<TEntity>
     {

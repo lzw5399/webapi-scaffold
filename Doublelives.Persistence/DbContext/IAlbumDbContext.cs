@@ -1,7 +1,7 @@
 ﻿using Doublelives.Domain.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Doublelives.Data
+namespace Doublelives.Persistence
 {
     public partial interface IAlbumDbContext
     {

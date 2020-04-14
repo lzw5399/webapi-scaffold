@@ -41,7 +41,7 @@ namespace Doublelives.Api.Controllers
         [HttpGet("useToken")]
         public IActionResult UseToken()
         {
-            var response = _mapper.Map<UserResponse>(WorkContext.CurrentUser);
+            var response = _mapper.Map<UserViewModel>(WorkContext.CurrentUser);
 
             return Ok(response);
         }

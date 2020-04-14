@@ -36,7 +36,7 @@ namespace Doublelives.Api.Controllers
         {
             var pictures = _pictureService.GetAll();
 
-            var response = _mapper.Map<IEnumerable<PicturesResponse>>(pictures);
+            var response = _mapper.Map<IEnumerable<PicturesViewModel>>(pictures);
 
             return Ok(response);
         }

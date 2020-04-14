@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Core", "Doublel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Service", "Doublelives.Service\Doublelives.Service.csproj", "{D8241B5D-8F29-4B84-9CBD-6901ACDDD970}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Data", "Doublelives.Data\Doublelives.Data.csproj", "{3D232050-7021-45D7-85BE-C7F5F84295FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Persistence", "Doublelives.Persistence\Doublelives.Persistence.csproj", "{3D232050-7021-45D7-85BE-C7F5F84295FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Domain", "Doublelives.Domain\Doublelives.Domain.csproj", "{EEB39C83-F123-40A4-A206-894CE494DFD2}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Shared", "Doublelives.Shared\Doublelives.Shared.csproj", "{5633A978-1313-41F9-880D-900B242EE611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doublelives.Infrastructure", "Doublelives.Infrastructure\Doublelives.Infrastructure.csproj", "{A50AC59D-8513-4563-83AD-3081526B3722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doublelives.Infrastructure", "Doublelives.Infrastructure\Doublelives.Infrastructure.csproj", "{A50AC59D-8513-4563-83AD-3081526B3722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

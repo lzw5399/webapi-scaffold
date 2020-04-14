@@ -1,7 +1,7 @@
 ﻿using COSXML;
 using COSXML.Auth;
 using Doublelives.Cos;
-using Doublelives.Data;
+using Doublelives.Persistence;
 using Doublelives.Service.Pictures;
 using Doublelives.Service.Users;
 using Doublelives.Service.WorkContextAccess;

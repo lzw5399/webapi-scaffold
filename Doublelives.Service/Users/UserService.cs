@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Doublelives.Data;
+using Doublelives.Persistence;
 using Doublelives.Domain.Users;
 using Doublelives.Infrastructure.Exceptions;
 using Doublelives.Infrastructure.Extensions;

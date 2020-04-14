@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Doublelives.Data.Mapping
+namespace Doublelives.Persistence.Mapping
 {
     public class UserEntityMapping : IEntityTypeConfiguration<User>
     {

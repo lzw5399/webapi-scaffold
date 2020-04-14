@@ -16,12 +16,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -47,7 +48,7 @@ namespace Doublelives.Api
             {
                 var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "swagger.xml");
                 c.IncludeXmlComments(filePath);
-                c.SwaggerDoc("v1", new Info { Title = "doublelives album", Version = "v1.0" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "doublelives admin", Version = "v1.0" });
                 c.OperationFilter<SwaggerAddHeaderParameter>();
             });
 
@@ -56,7 +57,7 @@ namespace Doublelives.Api
 
             services.AddAutoMapper(c =>
             {
-                c.AddProfile(new ResponseProfile());
+                c.AddProfile(new ViewModelProfile());
             }, typeof(Startup));
 
             services.AddCors(options => options.AddPolicy("AllowAll", builder =>
@@ -65,7 +66,6 @@ namespace Doublelives.Api
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin()
-                .AllowCredentials()
                 .WithExposedHeaders(ApiHeaders.TOKEN)
                 .SetPreflightMaxAge(TimeSpan.FromDays(1));
             }));
@@ -89,7 +89,10 @@ namespace Doublelives.Api
                     {
                         OnMessageReceived = it =>
                          {
-                             it.Token = it.HttpContext.Request.Headers[ApiHeaders.TOKEN];
+                             if (!string.IsNullOrEmpty(it.HttpContext.Request.Headers[ApiHeaders.TOKEN]))
+                             {
+                                 it.Token = it.HttpContext.Request.Headers[ApiHeaders.TOKEN];
+                             }
 
                              return Task.CompletedTask;
                          }
@@ -97,11 +100,11 @@ namespace Doublelives.Api
                 });
 
             services
-                .AddMvc(options =>
+                .AddControllers(options =>
                 {
                     options.Filters.Add<GlobalExceptionFilter>();
                 })
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
                     // 配置string转enum
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
@@ -109,15 +112,16 @@ namespace Doublelives.Api
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     // 配置序列化时时间格式
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseCors("AllowAll");
 
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMiddleware<WorkContextMiddleware>();
 
@@ -137,7 +141,10 @@ namespace Doublelives.Api
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

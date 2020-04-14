@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Doublelives.Data
+namespace Doublelives.Persistence
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
     {

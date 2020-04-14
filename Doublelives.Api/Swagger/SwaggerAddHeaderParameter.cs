@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.OpenApi.Models;
 
 namespace Doublelives.Api.Swagger
 {
@@ -16,11 +17,11 @@ namespace Doublelives.Api.Swagger
             ("user", "getToken")
         };
 
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (operation.Parameters == null)
             {
-                operation.Parameters = new List<IParameter>();
+                operation.Parameters = new List<OpenApiParameter>();
             }
 
             bool allowAnonymous = _allowAnonymousActions
@@ -40,12 +41,11 @@ namespace Doublelives.Api.Swagger
 
             if (!allowAnonymous)
             {
-                operation.Parameters.Add(new NonBodyParameter()
+                operation.Parameters.Add(new OpenApiParameter()
                 {
                     Description = "Example: \"{your token}\"",
                     Name = ApiHeaders.TOKEN,
-                    In = "header",
-                    Type = "apiKey",
+                    In = ParameterLocation.Header,
                     Required = false
                 });
             }
